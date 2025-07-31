@@ -39,7 +39,9 @@ I needed a streamlined way to integrate AI assistance directly into my developme
    ```
 
 3. **Set up environment variables**
-
+    ```
+    GEMINI_API_KEY = your_api_key
+   ```
 ## Configuration
 
 ### Working Directory Setup
@@ -104,7 +106,7 @@ We welcome contributions! Here's how to get started:
 
 ### Development Setup
 ```bash
-git clone https://github.com/YOUR_USERNAME/cli-ai-agent.git
+git clone https://github.com/GautamUpadhyayShorthillsAI/cli-ai-agent.git
 cd cli-ai-agent
 uv sync --dev
 ```
