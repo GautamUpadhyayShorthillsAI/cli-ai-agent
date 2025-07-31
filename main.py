@@ -1,4 +1,4 @@
-import os
+import os,time
 from config import CALL_LIMIT
 from dotenv import load_dotenv
 from google import genai
@@ -34,20 +34,23 @@ def main():
     messages = [
         types.Content(role="user", parts=[types.Part(text=user_prompt)]),
     ]
-    call_break = False
     for itr in range(CALL_LIMIT):
-        res = generate_content(client,messages,verboseCheck,call_break)
+        time.sleep(1)
+        res = generate_content(client,messages,verboseCheck)
         if res:
             print(res)
+            if "DONE" in res:
+                break
         
     
-def generate_content(client,messages,verboseCheck,call_break):
+def generate_content(client,messages,verboseCheck):
     
     response = client.models.generate_content(
         model='gemini-2.0-flash-001',
         contents=messages,
         config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT,tools=[available_function])
     )
+    
     for candidate in response.candidates:
         messages.append(candidate.content)
         
@@ -59,6 +62,7 @@ def generate_content(client,messages,verboseCheck,call_break):
 
     if not response.function_calls:
         return response.text
+    
     function_responses = []
     
     for function_call_part in response.function_calls:
